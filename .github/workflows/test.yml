@@ -1,0 +1,30 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+name: test compile
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout code
+      uses: actions/checkout@v2
+
+    - name: install python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: install platformio
+      run: |
+        pip install platformio==5.2.4
+
+    - name: build with platformio
+      run: |
+        pio run
+        pio run --target clean
+
